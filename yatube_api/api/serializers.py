@@ -38,8 +38,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = SlugRelatedField(slug_field='username', read_only=True)
-    group = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(),
-                                               required=False)
     comments = CommentSerializer(many=True, read_only=True)
     image = Base64ImageField(required=False, allow_null=True)
 
@@ -49,7 +47,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    user = SlugRelatedField(slug_field='username', read_only=True,
+    user = SlugRelatedField(slug_field='username', queryset=User.objects.all(),
                             default=serializers.CurrentUserDefault())
     following = SlugRelatedField(slug_field='username',
                                  queryset=User.objects.all())

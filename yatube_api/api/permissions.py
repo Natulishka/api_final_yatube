@@ -16,11 +16,6 @@ class IsNotExistFollow(permissions.BasePermission):
     message = 'Такая подписка уже существует!'
 
     def has_object_permission(self, request, view, obj):
-        print('проверка request')
-        print(request)
-        print('проверка obj')
-        print(obj)
-        raise TypeError
         if request.method in permissions.SAFE_METHODS:
             return True
         return request.user == obj.author
